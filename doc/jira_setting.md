@@ -1,7 +1,7 @@
 Setting up JIRA
 -------------
 
-As we would like to be able to post in the name of JIRA users, we need to use JIRA's OAuth 1 authentication to get access to post issues. JIRA OAuth method are using an RSA based identification between the third party services (here our integration service) and the JIRA itself. So in order to use and set up properly we need to generate our private-public key pairs and additional key files.
+As we would like to be able to post in the name of JIRA users, we need to use JIRA's OAuth 1 authentication to get access to post issues. JIRA OAuth method is using a RSA based identification between third party services (here our integration service) and JIRA itself. So in order to use and set up properly we need to generate our private-public key pairs and additional key files.
 
 ### Generate key files
 As a tool we will need an OpenSSL installation, so continue reading only once you have already set that up.
@@ -12,7 +12,7 @@ First we will need a private key as a base for the authentication process. To ge
 ```console
 openssl genrsa -out private_key.pem 2048
 ```
-This private_key.pem file, which we just created, is used only as a starting point to generate other key files, the file itself won't be used directly in the authentication process.
+This private_key.pem file, which we just created, is used only as a starting point to generate other key files, the file itself will not be used directly in the authentication process.
 
 > **Note:** As this file contains your private key, you should **keep the file privately and securely**
 
@@ -28,16 +28,16 @@ In the code you have to use this private_key.der file.
 > **Note:** As this file contains your private key, you should **keep the file privately and securely**
 
 #### Exporting public key
-Our last step in the generation process is to get the public pair of our previously generated private key. To get this last needed pieces of information run the following command:
+Our last step in the generation process is to get the public key of our previously generated private key. To get this last needed pieces of information run the following command:
 
 ```console
 openssl rsa -in private_key.pem -pubout > mykey.pub
 ```
-This is a simple text file, you can easily read in any text editor and as it is you public key, you don't really have to keep it as a big secret.
+This is a simple text file, you can easily read it in any text editor and as it is you public key, you do not have to keep it secret.
 
 ### Connect integration service to JIRA
 Of course JIRA has to know about our service to trust in its requests, so we need to register our service in JIRA.
-What we need is in JIRA is called as a **new application link**. You can find the menu for it somewhere inside the administration section.
+We need in JIRA a so called **new application link**. You can find the menu for it inside the administration section.
 
 #### New application link
 In the first window give the url of your server. It does not influence the connection, you can put here anything.
@@ -48,15 +48,15 @@ Then **press next** and in Step2 give an arbitrary name of your application.
 
 ![enter image description here](img/new_application_link2.png)
 
-Then **press create**. Now you should see in the list of your application links.
+Then **press create**. Now you should see the list of your application links.
 
 #### Configure application link
-But our job is not yet done, we still have to set up some authentication parameters to enable incoming/outgoing requests from the service. So **press configure** on the application link you just created.
+But our job is not yet done, we still have to set up some authentication parameters to enable incoming and outgoing requests from the service. So **press configure** on the application link you just created.
 Then **go to the Incoming Authentication** and fill the form with the following data:
 
 ![enter image description here](img/configure_application_link.png)
 
-- *Consumer key*: It is an arbitrary chosen alphanumeric key, which is shared between the JIRA and your service
+- *Consumer key*: It is an arbitrary chosen alphanumeric key, which is shared between the JIRA and your service.
 
 > **Note: The consumer key must match in the JIRA and in your service!**
 
@@ -65,4 +65,4 @@ Then **go to the Incoming Authentication** and fill the form with the following 
 
 > **Note:** Do not include the lines with -----BEGIN/END PUBLIC KEY-----
 
-Leave the other fields intact and save the configuration and you are good to go, everything should work.
+Leave the other fields intact, save the configuration and you are good to go, everything should work.
