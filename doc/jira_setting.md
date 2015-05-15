@@ -8,6 +8,7 @@ As a tool we will need an OpenSSL installation, so continue reading only once yo
 
 #### Generate private key
 First we will need a private key as a base for the authentication process. To generate run the following command in the console/terminal:
+
 ```console
 openssl genrsa -out private_key.pem 2048
 ```
@@ -17,6 +18,7 @@ This private_key.pem file, which we just created, is used only as a starting poi
 
 #### Generate binary private key
 Because we need to use the private key in our Java service, where we have to sign the requests going to the JIRA using SHA1 algorithm, we need to access the private key somehow. The solution to handle private keys is based on [this article](http://codeartisan.blogspot.de/2009/05/public-key-cryptography-in-java.html) and as a result we need our private key in a binary format, which is easier to handle in code. You can generate this binary private key file out of your previously generated private_key.pem file by running this console command:
+
 ```console
 openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_key.der -nocrypt
 ```
@@ -24,8 +26,10 @@ openssl pkcs8 -topk8 -inform PEM -outform DER -in private_key.pem -out private_k
 In the code you have to use this private_key.der file.
 
 > **Note:** As this file contains your private key, you should **keep the file privately and securely**
+
 #### Exporting public key
 Our last step in the generation process is to get the public pair of our previously generated private key. To get this last needed pieces of information run the following command:
+
 ```console
 openssl rsa -in private_key.pem -pubout > mykey.pub
 ```
